@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+</head>
+<body>
+    <script>
+        
+    const myLibrary = [];
+
+    function Book(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+        console.log(title, author, pages, read)
+    }
+
+    function addBookToLibrary(title, author, pages, read) {
+        const newBook = new Book(title, author, pages, read);
+        myLibrary.push(newBook);
+    }
+
+    addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 310, true);
+    addBookToLibrary("Mis Huevos", "Rafael Basanta", 2, false);
+
+    function displayLibrary() {
+        myLibrary.forEach(book => {
+        console.log(`Title: ${book.title}, Author: ${book.author}, Pages: ${book.pages}, Read: ${book.read}`);
+        });
+    }
+    console.log(myLibrary)
+    </script>
+    
+</body>
+</html>
