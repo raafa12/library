@@ -12,64 +12,76 @@
             <section>
                 <label for="author">Author:</label>
                 <input type="text" id="fname" name="fname"><br><br>
-                <input type="submit" value="Submit">
+            </section>
+            <section>
+                <label for="title">Title:</label>
+                <input type="text" id="ftitle" name="ftitle"><br><br>
+            </section>
+            <section>
+                <label for="pages">Number of pages:</label>
+                <input type="text" id="fpages" name="fpages"><br><br>
+            </section>
+            <section>
+                <label for="read">Read:</label>
+                <input type="checkbox" id="fread1" name="fread">Yes
+                <input type="checkbox" id="fread2" name="fread">No
             </section>
             <menu>
                 <button id="cancel" type="reset">Cancel</button>
                 <button type="submit">Confirm</button>
-              </menu>
+            </menu>
         </form> 
     </dialog>
 
     <menu>
         <button id="newBook">New book</button>
-      </menu>
+    </menu>
     
 
     <script>
-    
-    function newBook(favDialog) {
-        var updateButton = document.getElementById("updateDetails");
-        var cancelButton = document.getElementById("cancel");
-        var favDialog = document.getElementById("favDialog");
+        document.addEventListener("DOMContentLoaded", function () {
+            var newBookButton = document.getElementById("newBook");
+            var cancelButton = document.getElementById("cancel");
+            var favDialog = document.getElementById("favDialog");
 
-        // Update button opens a modal dialog
-        updateButton.addEventListener("click", function () {
-        favDialog.showModal();
+            // New book button opens a modal dialog
+            newBookButton.addEventListener("click", function () {
+                favDialog.showModal();
+            });
+
+            // Form cancel button closes the dialog box
+            cancelButton.addEventListener("click", function () {
+                favDialog.close();
+            });
         });
 
-        // Form cancel button closes the dialog box
-        cancelButton.addEventListener("click", function () {
-        favDialog.close();
-        });
-    };
-        
-    const myLibrary = [];
+        const myLibrary = [];
 
-    function Book(title, author, pages, read) {
-        this.title = title;
-        this.author = author;
-        this.pages = pages;
-        this.read = read;
-        console.log(title, author, pages, read)
-    }
+        function Book(title, author, pages, read) {
+            this.title = title;
+            this.author = author;
+            this.pages = pages;
+            this.read = read;
+        }
 
-    function addBookToLibrary(title, author, pages, read) {
-        const newBook = new Book(title, author, pages, read);
-        myLibrary.push(newBook);
-    }
+        function addBookToLibrary(title, author, pages, read) {
+            const newBook = new Book(title, author, pages, read);
+            myLibrary.push(newBook);
+        }
 
-    addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 310, true);
-    addBookToLibrary("Mis Huevos", "Rafael Basanta", 2, false);
-    addBookToLibrary("How to make a baby", "Jesus Crist", 169, true);
-    addBookToLibrary("Make America Great Again", "Donald Trump", 222, true);
+        addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 310, true);
+        addBookToLibrary("Mis Huevos", "Rafael Basanta", 2, false);
+        addBookToLibrary("How to make a baby", "Jesus Crist", 169, true);
+        addBookToLibrary("Make America Great Again", "Donald Trump", 222, true);
 
-    function displayLibrary() {
-        myLibrary.forEach(book => {
-        console.log(`Title: ${book.title}, Author: ${book.author}, Pages: ${book.pages}, Read: ${book.read}`);
-        });
-    }
-    displayLibrary
+        function displayLibrary() {
+            myLibrary.forEach(book => {
+                console.log(`Title: ${book.title}, Author: ${book.author}, Pages: ${book.pages}, Read: ${book.read}`);
+            });
+        }
+
+        displayLibrary();
+
     </script>
     
 </body>
