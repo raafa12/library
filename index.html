@@ -68,6 +68,7 @@
                     <p><strong>Pages:</strong> ${book.pages}</p>
                     <p><strong>Read:</strong> ${book.read ? "Yes" : "No"}</p>
                     <button onclick="removeBook(${index})">Remove</button>
+                    <button onclick="toggleReadStatus(${index})">Read</button>
                 `;
                 libraryDiv.appendChild(bookDiv);
             });
@@ -102,6 +103,16 @@
         addBookToLibrary("The Fellowship of the Ring", "J.R.R. Tolkien", 423, true);
         addBookToLibrary("The Two Towers", "J.R.R. Tolkien", 352, true);
         addBookToLibrary("The Return of the King", "J.R.R. Tolkien", 416, false);
+
+    Book.prototype.toggleRead = function() {
+        this.read = !this.read;
+        };
+
+    window.toggleReadStatus = function(index) {
+        myLibrary[index].toggleRead();
+        displayLibrary();
+    };
+    
     </script>
 
 </body>
