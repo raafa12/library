@@ -7,93 +7,42 @@
 </head>
 <body>
 
-    <div class="one"><h6>The Fellowship of the Ring</h6>
-        <p>by J.R.R. Tolkien</p>
-        <p>423 pages</p>
-        <p>Year of release: 1954</p>
-        <p>read</p>
-        <button>Delete</button>
-    </div>
-    <div class="two"><h6>The Two Towers</h6>
-        <p>by J.R.R. Tolkien</p>
-        <p>352 pages</p>
-        <p>Year of release: 1954</p>
-        <p>read</p>
-        <button>Delete</button>
-    </div>
-    <div class="three"><h6>The Return of the King</h6>
-        <p>by J.R.R. Tolkien</p>
-        <p>416 pages</p>
-        <p>Year of release: 1955</p>
-        <p>read</p>
-        <button>Delete</button>
-    </div>
+    <h1>My Library</h1>
 
+    <div id="library"></div>
 
     <dialog id="favDialog">
         <form id="bookForm">
             <section>
-                <label for="author">Author:</label>
+                <label for="fname">Author:</label>
                 <input type="text" id="fname" name="fname" required><br><br>
             </section>
             <section>
-                <label for="title">Title:</label>
+                <label for="ftitle">Title:</label>
                 <input type="text" id="ftitle" name="ftitle" required><br><br>
             </section>
             <section>
-                <label for="pages">Number of pages:</label>
-                <input type="text" id="fpages" name="fpages" required><br><br>
+                <label for="fpages">Number of pages:</label>
+                <input type="number" id="fpages" name="fpages" required><br><br>
             </section>
             <section>
-                <label for="read">Read:</label>
-                <input type="checkbox" id="fread" name="fread">Yes
-                <input type="checkbox" id="fread" name="fread">No
+                <label for="fread">Read:</label>
+                <input type="checkbox" id="fread" name="fread"> Yes
             </section>
             <menu>
                 <button id="cancel" type="reset">Cancel</button>
                 <button type="submit">Confirm</button>
             </menu>
-        </form> 
+        </form>
     </dialog>
 
     <menu>
         <button id="newBook">New book</button>
     </menu>
 
-    <div class="library" id="library"></div>
-
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var newBookButton = document.getElementById("newBook");
-            var cancelButton = document.getElementById("cancel");
-            var favDialog = document.getElementById("favDialog");
-            var bookForm = document.getElementById("bookForm");
-
-            // New book button opens a modal dialog
-            newBookButton.addEventListener("click", function () {
-                favDialog.showModal();
-            });
-
-            // Form cancel button closes the dialog box
-            cancelButton.addEventListener("click", function () {
-                favDialog.close();
-            });
-
-            // Form submission
-            bookForm.addEventListener("submit", function (event) {
-                event.preventDefault();
-                var title = document.getElementById("ftitle").value;
-                var author = document.getElementById("fname").value;
-                var pages = document.getElementById("fpages").value;
-                var read = document.getElementById("fread").checked;
-                addBookToLibrary(title, author, pages, read);
-                favDialog.close();
-                displayLibrary();
-                bookForm.reset();
-            });
-        });
-
-        const myLibrary = ["one", "two", "three"];
+        const libraryDiv = document.getElementById("library");
+        const myLibrary = [];
 
         function Book(title, author, pages, read) {
             this.title = title;
@@ -105,44 +54,55 @@
         function addBookToLibrary(title, author, pages, read) {
             const newBook = new Book(title, author, pages, read);
             myLibrary.push(newBook);
+            displayLibrary();
         }
 
         function displayLibrary() {
-                libraryDiv.innerHTML = "";
-                myLibrary.forEach((book, index) => {
-                    const bookDiv = document.createElement("div");
-                    bookDiv.classList.add("book");
-                    bookDiv.innerHTML = `
-                        <strong>Title:</strong> ${book.title} <br>
-                        <strong>Author:</strong> ${book.author} <br>
-                        <strong>Pages:</strong> ${book.pages} <br>
-                        <strong>Read:</strong> ${book.read ? "Yes" : "No"} <br>
-                        <button onclick="removeBook(${index})">Remove</button>
-                    `;
-                    libraryDiv.appendChild(bookDiv);
-                });
-            }
-
-
-        addBookToLibrary("The Fellowship of the Ring", "J.R.R. Tolkien",1954, 423, true);
-        addBookToLibrary("The Two Towers", "J.R.R. Tolkien", 1954, 352, true);
-        addBookToLibrary("The Return of the King", "J.R.R. Tolkien", 1955, 416, false);
-        
-        window.removeBook = function(index) {
-                myLibrary.splice(index, 1);
-                displayLibrary();
-            };
-
-        function displayLibrary() {
-            console.clear();
-            myLibrary.forEach(book => {
-                console.log(`Title: ${book.title}, Author: ${book.author}, Pages: ${book.pages}, Read: ${book.read}`);
+            libraryDiv.innerHTML = "";
+            myLibrary.forEach((book, index) => {
+                const bookDiv = document.createElement("div");
+                bookDiv.classList.add("book");
+                bookDiv.innerHTML = `
+                    <h3>${book.title}</h3>
+                    <p><strong>Author:</strong> ${book.author}</p>
+                    <p><strong>Pages:</strong> ${book.pages}</p>
+                    <p><strong>Read:</strong> ${book.read ? "Yes" : "No"}</p>
+                    <button onclick="removeBook(${index})">Remove</button>
+                `;
+                libraryDiv.appendChild(bookDiv);
             });
         }
 
-        displayLibrary();
+        window.removeBook = function(index) {
+            myLibrary.splice(index, 1);
+            displayLibrary();
+        };
 
+        document.addEventListener("DOMContentLoaded", function () {
+            const newBookButton = document.getElementById("newBook");
+            const cancelButton = document.getElementById("cancel");
+            const favDialog = document.getElementById("favDialog");
+            const bookForm = document.getElementById("bookForm");
+
+            newBookButton.addEventListener("click", () => favDialog.showModal());
+            cancelButton.addEventListener("click", () => favDialog.close());
+
+            bookForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const title = document.getElementById("ftitle").value;
+                const author = document.getElementById("fname").value;
+                const pages = document.getElementById("fpages").value;
+                const read = document.getElementById("fread").checked;
+                addBookToLibrary(title, author, pages, read);
+                favDialog.close();
+                bookForm.reset();
+            });
+        });
+
+        addBookToLibrary("The Fellowship of the Ring", "J.R.R. Tolkien", 423, true);
+        addBookToLibrary("The Two Towers", "J.R.R. Tolkien", 352, true);
+        addBookToLibrary("The Return of the King", "J.R.R. Tolkien", 416, false);
     </script>
-    
+
 </body>
 </html>
